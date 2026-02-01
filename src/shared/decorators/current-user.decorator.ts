@@ -6,6 +6,7 @@ export interface CurrentUserData {
   id: string;
   companyId: string;
   roles: RoleEnum[];
+  userRoles?: Array<{ role: RoleEnum }>;
 }
 
 interface AuthenticatedRequest extends Request {

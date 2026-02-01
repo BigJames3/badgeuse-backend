@@ -11,7 +11,7 @@ import { CreateOvertimeDto } from './dto/create-overtime.dto';
 import { UpdateOvertimeDto } from './dto/update-overtime.dto';
 import { QueryOvertimeDto } from './dto/query-overtime.dto';
 import { OvertimeStatusEnum } from '../../../shared/enums/prisma.enums';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class OvertimeService {

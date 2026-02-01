@@ -8,7 +8,7 @@ import { PrismaService } from '../../shared/prisma/prisma.service';
 import { RoleEnum } from '../../shared/enums/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import type { Prisma } from '../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {

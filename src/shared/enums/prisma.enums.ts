@@ -9,7 +9,7 @@ import {
   type PayrollStatus as PayrollStatusType,
   type ReportType as ReportTypeType,
   type StudentAttendanceStatus as StudentAttendanceStatusType,
-} from '../../../prisma/generated/prisma';
+} from '@prisma/client';
 
 export const ExportFormatEnum = PrismaExportFormat;
 export type ExportFormat = ExportFormatType;

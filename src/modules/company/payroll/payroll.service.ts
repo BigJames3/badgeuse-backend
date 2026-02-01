@@ -10,7 +10,7 @@ import { RoleEnum } from '../../../shared/enums/role.enum';
 import { CreatePayrollDto } from './dto/create-payroll.dto';
 import { UpdatePayrollDto } from './dto/update-payroll.dto';
 import { QueryPayrollDto } from './dto/query-payroll.dto';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PayrollService {

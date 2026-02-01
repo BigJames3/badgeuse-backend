@@ -55,6 +55,10 @@ export class AuthService {
         id: true,
         email: true,
         roles: true,
+        userRoles: {
+          where: { deletedAt: null },
+          select: { role: true },
+        },
         companyId: true,
         isActive: true,
         createdAt: true,

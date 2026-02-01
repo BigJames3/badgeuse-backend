@@ -12,7 +12,7 @@ import { QueryTeamDto } from './dto/query-team.dto';
 import { CreateWorkerDto } from './dto/create-worker.dto';
 import { UpdateWorkerDto } from './dto/update-worker.dto';
 import { QueryWorkerDto } from './dto/query-worker.dto';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TeamsService {

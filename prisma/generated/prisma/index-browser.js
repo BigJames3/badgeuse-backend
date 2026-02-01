@@ -124,6 +124,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
   id: 'id',
   name: 'name',
   code: 'code',
+  type: 'type',
   isActive: 'isActive',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
@@ -138,6 +139,7 @@ exports.Prisma.UserScalarFieldEnum = {
   roles: 'roles',
   isActive: 'isActive',
   companyId: 'companyId',
+  personId: 'personId',
   refreshTokenHash: 'refreshTokenHash',
   refreshTokenExpiresAt: 'refreshTokenExpiresAt',
   deletedAt: 'deletedAt',
@@ -268,6 +270,7 @@ exports.Prisma.StudentScalarFieldEnum = {
   firstName: 'firstName',
   lastName: 'lastName',
   email: 'email',
+  personId: 'personId',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -314,6 +317,7 @@ exports.Prisma.ConstructionWorkerScalarFieldEnum = {
   teamId: 'teamId',
   name: 'name',
   email: 'email',
+  personId: 'personId',
   deletedAt: 'deletedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -340,8 +344,178 @@ exports.Prisma.AuditLogScalarFieldEnum = {
   action: 'action',
   entity: 'entity',
   entityId: 'entityId',
+  actionType: 'actionType',
+  entityType: 'entityType',
+  ip: 'ip',
   userId: 'userId',
   data: 'data',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.UserRoleScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  role: 'role',
+  userId: 'userId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PersonScalarFieldEnum = {
+  id: 'id',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  phone: 'phone',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.EmployeeScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  personId: 'personId',
+  userId: 'userId',
+  scheduleId: 'scheduleId',
+  matricule: 'matricule',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WorkerScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  personId: 'personId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AttendanceEventScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  type: 'type',
+  timestamp: 'timestamp',
+  date: 'date',
+  personType: 'personType',
+  employeeId: 'employeeId',
+  studentId: 'studentId',
+  workerId: 'workerId',
+  deviceId: 'deviceId',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.AttendanceDailySummaryScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  date: 'date',
+  status: 'status',
+  lateMinutes: 'lateMinutes',
+  earlyMinutes: 'earlyMinutes',
+  workedMinutes: 'workedMinutes',
+  employeeId: 'employeeId',
+  studentId: 'studentId',
+  workerId: 'workerId',
+  validatedByUserId: 'validatedByUserId',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.DeviceScalarFieldEnum = {
+  id: 'id',
+  uuid: 'uuid',
+  platform: 'platform',
+  model: 'model',
+  personId: 'personId',
+  companyId: 'companyId',
+  deletedAt: 'deletedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LeaveTypeScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  name: 'name',
+  code: 'code',
+  isPaid: 'isPaid',
+  maxDaysYear: 'maxDaysYear',
+  createdAt: 'createdAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.LeaveBalanceScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  employeeId: 'employeeId',
+  leaveTypeId: 'leaveTypeId',
+  year: 'year',
+  totalDays: 'totalDays',
+  usedDays: 'usedDays',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.LeaveRequestScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  employeeId: 'employeeId',
+  leaveTypeId: 'leaveTypeId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  days: 'days',
+  status: 'status',
+  reason: 'reason',
+  requestedAt: 'requestedAt',
+  validatedAt: 'validatedAt',
+  validatedByUserId: 'validatedByUserId',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.PublicHolidayScalarFieldEnum = {
+  id: 'id',
+  date: 'date',
+  name: 'name',
+  country: 'country',
+  companyId: 'companyId',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.ContractScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  employeeId: 'employeeId',
+  salaryType: 'salaryType',
+  baseSalary: 'baseSalary',
+  hourlyRate: 'hourlyRate',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.PayrollPeriodScalarFieldEnum = {
+  id: 'id',
+  month: 'month',
+  year: 'year',
+  companyId: 'companyId',
+  isClosed: 'isClosed',
+  closedAt: 'closedAt',
+  closedByUserId: 'closedByUserId',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.PayrollLineScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  payrollPeriodId: 'payrollPeriodId',
+  employeeId: 'employeeId',
+  workedDays: 'workedDays',
+  absentDays: 'absentDays',
+  lateMinutes: 'lateMinutes',
+  overtimeHours: 'overtimeHours',
+  grossSalary: 'grossSalary',
+  deductions: 'deductions',
+  netSalary: 'netSalary',
+  deletedAt: 'deletedAt',
   createdAt: 'createdAt'
 };
 
@@ -374,6 +548,12 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.CompanyType = exports.$Enums.CompanyType = {
+  CORPORATE: 'CORPORATE',
+  SCHOOL: 'SCHOOL',
+  CONSTRUCTION: 'CONSTRUCTION'
+};
+
 exports.Role = exports.$Enums.Role = {
   SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
@@ -413,6 +593,51 @@ exports.StudentAttendanceStatus = exports.$Enums.StudentAttendanceStatus = {
   ABSENT: 'ABSENT'
 };
 
+exports.AuditAction = exports.$Enums.AuditAction = {
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT'
+};
+
+exports.AuditEntity = exports.$Enums.AuditEntity = {
+  USER: 'USER',
+  ATTENDANCE: 'ATTENDANCE',
+  PAYROLL: 'PAYROLL'
+};
+
+exports.AttendanceType = exports.$Enums.AttendanceType = {
+  CHECK_IN: 'CHECK_IN',
+  CHECK_OUT: 'CHECK_OUT'
+};
+
+exports.PersonType = exports.$Enums.PersonType = {
+  EMPLOYEE: 'EMPLOYEE',
+  STUDENT: 'STUDENT',
+  WORKER: 'WORKER'
+};
+
+exports.AttendanceStatus = exports.$Enums.AttendanceStatus = {
+  ON_TIME: 'ON_TIME',
+  LATE: 'LATE',
+  EARLY_LEAVE: 'EARLY_LEAVE',
+  ABSENT: 'ABSENT',
+  HOLIDAY: 'HOLIDAY',
+  SICK_LEAVE: 'SICK_LEAVE'
+};
+
+exports.LeaveStatus = exports.$Enums.LeaveStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+exports.SalaryType = exports.$Enums.SalaryType = {
+  MONTHLY: 'MONTHLY',
+  HOURLY: 'HOURLY'
+};
+
 exports.Prisma.ModelName = {
   Company: 'Company',
   User: 'User',
@@ -432,7 +657,21 @@ exports.Prisma.ModelName = {
   ConstructionTeam: 'ConstructionTeam',
   ConstructionWorker: 'ConstructionWorker',
   SiteAttendance: 'SiteAttendance',
-  AuditLog: 'AuditLog'
+  AuditLog: 'AuditLog',
+  UserRole: 'UserRole',
+  Person: 'Person',
+  Employee: 'Employee',
+  Worker: 'Worker',
+  AttendanceEvent: 'AttendanceEvent',
+  AttendanceDailySummary: 'AttendanceDailySummary',
+  Device: 'Device',
+  LeaveType: 'LeaveType',
+  LeaveBalance: 'LeaveBalance',
+  LeaveRequest: 'LeaveRequest',
+  PublicHoliday: 'PublicHoliday',
+  Contract: 'Contract',
+  PayrollPeriod: 'PayrollPeriod',
+  PayrollLine: 'PayrollLine'
 };
 
 /**

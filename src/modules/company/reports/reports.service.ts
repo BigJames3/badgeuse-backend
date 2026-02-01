@@ -5,7 +5,7 @@ import { RoleEnum } from '../../../shared/enums/role.enum';
 import { CreateReportDto } from './dto/create-report.dto';
 import { QueryReportDto } from './dto/query-report.dto';
 import { ReportType, ReportTypeEnum } from '../../../shared/enums/prisma.enums';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ReportsService {

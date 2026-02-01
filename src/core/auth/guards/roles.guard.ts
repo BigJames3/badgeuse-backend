@@ -23,8 +23,14 @@ export class RolesGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
     const user = request.user;
-    const userRoles: RoleEnum[] = Array.isArray(user?.roles) ? user.roles : [];
+    const legacyRoles: RoleEnum[] = Array.isArray(user?.roles) ? user.roles : [];
+    const rbacRoles: RoleEnum[] = Array.isArray(user?.userRoles)
+      ? user.userRoles
+          .map((r) => r?.role)
+          .filter((role): role is RoleEnum => Boolean(role))
+      : [];
+    const roleSet = new Set<RoleEnum>([...legacyRoles, ...rbacRoles]);
 
-    return userRoles.some((role) => requiredRoles.includes(role));
+    return requiredRoles.some((role) => roleSet.has(role));
   }
 }

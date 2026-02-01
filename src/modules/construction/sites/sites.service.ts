@@ -9,7 +9,7 @@ import { RoleEnum } from '../../../shared/enums/role.enum';
 import { CreateSiteDto } from './dto/create-site.dto';
 import { UpdateSiteDto } from './dto/update-site.dto';
 import { QuerySiteDto } from './dto/query-site.dto';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class SitesService {

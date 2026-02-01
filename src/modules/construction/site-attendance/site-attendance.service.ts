@@ -10,7 +10,7 @@ import { RoleEnum } from '../../../shared/enums/role.enum';
 import { CreateSiteAttendanceDto } from './dto/create-site-attendance.dto';
 import { UpdateSiteAttendanceDto } from './dto/update-site-attendance.dto';
 import { QuerySiteAttendanceDto } from './dto/query-site-attendance.dto';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class SiteAttendanceService {

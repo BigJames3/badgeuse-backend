@@ -9,7 +9,7 @@ import { UpdateScheduleDto } from './dto/update-schedule.dto';
 import { QueryScheduleDto } from './dto/query-schedule.dto';
 import { CurrentUserData } from '../../../shared/decorators/current-user.decorator';
 import { RoleEnum } from '../../../shared/enums/role.enum';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class SchedulesService {

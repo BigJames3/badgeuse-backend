@@ -21,9 +21,9 @@ async function bootstrap() {
   );
   const config = new DocumentBuilder()
     .setTitle('Badgeuse Platform API')
-    .setDescription('Backend API')
+    .setDescription('Backend API') //('API Backend - Badgeuse Numérique')
     .setVersion('1.0.0')
-    .addBearerAuth()
+    .addBearerAuth()  // 🔐 JWT
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
@@ -33,3 +33,5 @@ bootstrap().catch((err) => {
   console.error(err);
   process.exit(1);
 });
+
+

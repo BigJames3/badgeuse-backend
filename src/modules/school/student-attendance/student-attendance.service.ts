@@ -10,7 +10,7 @@ import { RoleEnum } from '../../../shared/enums/role.enum';
 import { CreateStudentAttendanceDto } from './dto/create-student-attendance.dto';
 import { UpdateStudentAttendanceDto } from './dto/update-student-attendance.dto';
 import { QueryStudentAttendanceDto } from './dto/query-student-attendance.dto';
-import type { Prisma } from '../../../../prisma/generated/prisma';
+import type { Prisma } from '@prisma/client';
 
 @Injectable()
 export class StudentAttendanceService {

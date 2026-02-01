@@ -9,6 +9,10 @@ import { UsersModule } from './core/users/users.module';
 import { AttendanceModule } from './core/attendance/attendance.module';
 import { NotificationModule } from './core/notification/notification.module';
 import { SecurityModule } from './core/security/security.module';
+import { PersonModule } from './core/persons/person.module';
+import { EmployeeModule } from './core/employees/employee.module';
+import { StudentModule } from './core/students/student.module';
+import { WorkerModule } from './core/workers/worker.module';
 import { CompanyModule } from './modules/company/company.module';
 import { ConstructionModule } from './modules/construction/construction.module';
 import { SchoolModule } from './modules/school/school.module';
@@ -22,6 +26,10 @@ import { SchoolModule } from './modules/school/school.module';
     AttendanceModule,
     NotificationModule,
     SecurityModule,
+    PersonModule,
+    EmployeeModule,
+    StudentModule,
+    WorkerModule,
     CompanyModule,
     ConstructionModule,
     SchoolModule,

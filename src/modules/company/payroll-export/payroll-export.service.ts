@@ -13,7 +13,7 @@ import { createWriteStream } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import PDFDocument from 'pdfkit';
-import type { Payroll, Prisma } from '../../../../prisma/generated/prisma';
+import type { Payroll, Prisma } from '@prisma/client';
 
 @Injectable()
 export class PayrollExportService {
