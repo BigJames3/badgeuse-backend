@@ -1,0 +1,389 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  RH
+  MANAGER
+  EMPLOYEE
+  TEACHER
+  SITE_MANAGER
+}
+
+enum OvertimeStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PayrollStatus {
+  DRAFT
+  FINALIZED
+  PAID
+}
+
+enum ExportFormat {
+  CSV
+  PDF
+}
+
+enum ReportType {
+  ATTENDANCE
+  PAYROLL
+  OVERTIME
+}
+
+enum StudentAttendanceStatus {
+  PRESENT
+  LATE
+  ABSENT
+}
+
+model Company {
+  id        String    @id @default(uuid())
+  name      String
+  code      String    @unique
+  isActive  Boolean   @default(true)
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users      User[]
+  attendance Attendance[]
+
+  schedules           Schedule[]
+  overtime            Overtime[]
+  attendanceSummaries AttendanceSummary[]
+  payrolls            Payroll[]
+  payrollExports      PayrollExport[]
+  reports             Report[]
+
+  schoolClasses     SchoolClass[]
+  courses           Course[]
+  students          Student[]
+  studentAttendance StudentAttendance[]
+
+  constructionSites   ConstructionSite[]
+  constructionTeams   ConstructionTeam[]
+  constructionWorkers ConstructionWorker[]
+  siteAttendance      SiteAttendance[]
+  auditLogs           AuditLog[]
+  periodClosures      PeriodClosure[]
+}
+
+model User {
+  id                    String    @id @default(uuid())
+  email                 String    @unique
+  name                  String?
+  passwordHash          String
+  roles                 Role[]    @default([EMPLOYEE])
+  isActive              Boolean   @default(true)
+  companyId             String
+  company               Company   @relation(fields: [companyId], references: [id])
+  refreshTokenHash      String?
+  refreshTokenExpiresAt DateTime?
+  deletedAt             DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attendance               Attendance[]
+  overtimeRequests         Overtime[]          @relation("OvertimeRequester")
+  overtimeApprovals        Overtime[]          @relation("OvertimeApprover")
+  studentAttendanceRecords StudentAttendance[] @relation("StudentAttendanceRecorder")
+  auditLogs                AuditLog[]
+}
+
+model Attendance {
+  id         String    @id @default(uuid())
+  userId     String
+  companyId  String
+  checkInAt  DateTime
+  checkOutAt DateTime?
+  deletedAt  DateTime?
+
+  user    User    @relation(fields: [userId], references: [id])
+  company Company @relation(fields: [companyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Schedule {
+  id         String    @id @default(uuid())
+  companyId  String
+  name       String
+  startTime  String
+  endTime    String
+  daysOfWeek String[]
+  deletedAt  DateTime?
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Overtime {
+  id               String         @id @default(uuid())
+  companyId        String
+  userId           String
+  date             DateTime
+  hours            Float
+  reason           String?
+  status           OvertimeStatus @default(PENDING)
+  approvedByUserId String?
+  approvedAt       DateTime?
+  deletedAt        DateTime?
+
+  company    Company @relation(fields: [companyId], references: [id])
+  user       User    @relation("OvertimeRequester", fields: [userId], references: [id])
+  approvedBy User?   @relation("OvertimeApprover", fields: [approvedByUserId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AttendanceSummary {
+  id            String    @id @default(uuid())
+  companyId     String
+  periodStart   DateTime
+  periodEnd     DateTime
+  totalHours    Float
+  overtimeHours Float
+  deletedAt     DateTime?
+
+  company  Company   @relation(fields: [companyId], references: [id])
+  payrolls Payroll[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payroll {
+  id                  String        @id @default(uuid())
+  companyId           String
+  attendanceSummaryId String
+  periodStart         DateTime
+  periodEnd           DateTime
+  grossPay            Float
+  netPay              Float
+  status              PayrollStatus @default(DRAFT)
+  deletedAt           DateTime?
+
+  company           Company           @relation(fields: [companyId], references: [id])
+  attendanceSummary AttendanceSummary @relation(fields: [attendanceSummaryId], references: [id])
+  exports           PayrollExport[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PayrollExport {
+  id        String       @id @default(uuid())
+  companyId String
+  payrollId String
+  format    ExportFormat
+  path      String
+  deletedAt DateTime?
+
+  company Company @relation(fields: [companyId], references: [id])
+  payroll Payroll @relation(fields: [payrollId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Report {
+  id          String     @id @default(uuid())
+  companyId   String
+  type        ReportType
+  periodStart DateTime
+  periodEnd   DateTime
+  data        Json
+  deletedAt   DateTime?
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PeriodClosure {
+  id          String   @id @default(uuid())
+  companyId   String
+  periodStart DateTime
+  periodEnd   DateTime
+  closedAt    DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id])
+}
+
+model SchoolClass {
+  id        String    @id @default(uuid())
+  companyId String
+  name      String
+  code      String
+  deletedAt DateTime?
+
+  company  Company   @relation(fields: [companyId], references: [id])
+  courses  Course[]
+  students Student[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, code])
+}
+
+model Course {
+  id        String    @id @default(uuid())
+  companyId String
+  classId   String
+  name      String
+  code      String
+  deletedAt DateTime?
+
+  company Company     @relation(fields: [companyId], references: [id])
+  class   SchoolClass @relation(fields: [classId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([companyId, code])
+}
+
+model Student {
+  id        String    @id @default(uuid())
+  companyId String
+  classId   String
+  firstName String
+  lastName  String
+  email     String?
+  deletedAt DateTime?
+
+  company    Company             @relation(fields: [companyId], references: [id])
+  class      SchoolClass         @relation(fields: [classId], references: [id])
+  attendance StudentAttendance[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StudentAttendance {
+  id               String                  @id @default(uuid())
+  companyId        String
+  studentId        String
+  date             DateTime
+  status           StudentAttendanceStatus
+  note             String?
+  recordedByUserId String?
+  deletedAt        DateTime?
+
+  company    Company @relation(fields: [companyId], references: [id])
+  student    Student @relation(fields: [studentId], references: [id])
+  recordedBy User?   @relation("StudentAttendanceRecorder", fields: [recordedByUserId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, date])
+}
+
+model ConstructionSite {
+  id        String    @id @default(uuid())
+  companyId String
+  name      String
+  location  String?
+  latitude  Float?
+  longitude Float?
+  deletedAt DateTime?
+
+  company    Company            @relation(fields: [companyId], references: [id])
+  teams      ConstructionTeam[]
+  attendance SiteAttendance[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ConstructionTeam {
+  id        String    @id @default(uuid())
+  companyId String
+  siteId    String
+  name      String
+  deletedAt DateTime?
+
+  company Company              @relation(fields: [companyId], references: [id])
+  site    ConstructionSite     @relation(fields: [siteId], references: [id])
+  workers ConstructionWorker[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ConstructionWorker {
+  id        String    @id @default(uuid())
+  companyId String
+  teamId    String
+  name      String
+  email     String?
+  deletedAt DateTime?
+
+  company    Company          @relation(fields: [companyId], references: [id])
+  team       ConstructionTeam @relation(fields: [teamId], references: [id])
+  attendance SiteAttendance[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SiteAttendance {
+  id         String    @id @default(uuid())
+  companyId  String
+  siteId     String
+  workerId   String
+  date       DateTime
+  checkInAt  DateTime
+  checkOutAt DateTime?
+  latitude   Float?
+  longitude  Float?
+  deletedAt  DateTime?
+
+  company Company            @relation(fields: [companyId], references: [id])
+  site    ConstructionSite   @relation(fields: [siteId], references: [id])
+  worker  ConstructionWorker @relation(fields: [workerId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([workerId, date])
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  companyId String
+  action    String
+  entity    String
+  entityId  String
+  userId    String?
+  data      Json?
+  createdAt DateTime @default(now())
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
+}
